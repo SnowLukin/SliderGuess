@@ -14,36 +14,62 @@ struct ContentView: View {
     @State private var showAlert = false
         
     var body: some View {
-        VStack {
-            GameSlider(
-                currentValue: $currentValue,
-                targetValue: targetValue,
-                color: .red,
-                alpha: computeScore()
-            )
-            
-            Button("Check") {
-                showAlert = true
-            }
-            .padding()
-            .alert("Your Score", isPresented: $showAlert, actions: {}) {
-                Text("\(computeScore())")
-            }
-            
-            Button("Change") {
-                targetValue = Int.random(in: 1...100)
+        ZStack {
+            Color("lightOrange")
+                .ignoresSafeArea()
+            VStack {
+                Spacer()
+                Spacer()
+                Spacer()
+                GameSlider(
+                    currentValue: $currentValue,
+                    targetValue: targetValue,
+                    color: .red,
+                    alpha: computeScore()
+                )
+                Spacer()
+                Spacer()
+                buttonsStack
+                    .padding()
+                Spacer()
             }
         }
-    }
-    
-    private func computeScore() -> Int {
-        let difference = abs(targetValue - lround(currentValue))
-        return 100 - difference
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+extension ContentView {
+    
+    private var buttonsStack: some View {
+        VStack(spacing: 30) {
+            CustomButton(
+                text: "Check",
+                strokeColor: .orange,
+                action: {
+                    showAlert = true
+                }
+            )
+            .alert("Your Score", isPresented: $showAlert, actions: {}) {
+                Text("\(computeScore())")
+            }
+            
+            CustomButton(
+                text: "Change",
+                strokeColor: .orange,
+                action: {
+                    targetValue = Int.random(in: 1...100)
+                }
+            )
+        }
+    }
+    
+    private func computeScore() -> Int {
+        let difference = abs(targetValue - lround(currentValue))
+        return 100 - difference
     }
 }

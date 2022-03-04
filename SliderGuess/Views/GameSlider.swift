@@ -17,10 +17,16 @@ struct GameSlider: View {
     var body: some View {
         VStack {
             Text("Goal: \(targetValue)")
+                .font(.largeTitle)
+                .fontWeight(.semibold)
             HStack {
                 Text("0")
+                    .font(.title3)
+                    .fontWeight(.semibold)
                 CustomSlider(value: $currentValue, alpha: alpha, color: color)
                 Text("100")
+                    .font(.title3)
+                    .fontWeight(.semibold)
             }
             .padding()
         }
